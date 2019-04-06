@@ -1,19 +1,3 @@
----
-layout:     post
-title:      Dimensionality Reduction
-subtitle:   Class Notes of Gatech ECE 6254
-date:       2019-04-05
-author:     Yinghao Li
-header-img: img/post-bg-ios9-web.jpg
-catalog: true
-tags:
-    - Machine Learning
-    - Dimension
-    - Gatech
----
-
-
-
 # Dimensionality Reduction
 
 [TOC]
@@ -62,7 +46,6 @@ Many possible choices to assign a rank $r(j)$ to feature $j$:
 - Misclassification rate:
 
 $$
-\tag{1}
 r(j) \triangleq \frac{1}{N}\sum_{i=1}^N\mathbb{i}\left\{y_i\neq h(x_{i,j})\right\}
 $$
 
@@ -71,16 +54,14 @@ $$
 - Two-sample t-test statistics:
 
 $$
-\tag{2}
 r(j)\triangleq \frac{\bar{x}_j^{(+)} - \bar{x}_j^{(-)}}{s/\sqrt{n}}
 $$
 
-​	where $\bar{x}_j^{(\pm)}​$ are class means for feature $j​$; $s​$ is the polled sample standard deviation.
+​	where $\bar{x}_j^{(\pm)}$ are class means for feature $j$; $s$ is the polled sample standard deviation.
 
 - Margin:
 
 $$
-\tag{3}
 r(j)\triangleq \min_{k,\ell}\left|x_j^{\mathbb{I}(y_k=1)}-x_j^{\mathbb{I}(y_l=-1)}\right|
 $$
 
@@ -89,14 +70,12 @@ $$
 - Correlation coefficient:
 
 $$
-\tag{4}
 r(j)\triangleq |\rho(j)| \text{ with } \rho(j)\triangleq\frac{{\rm Cov}(x_j,y)}{\sqrt{{\rm Var}(x_j){\rm Var}(y)}}
 $$
 
 - Mutual information:
 
 $$
-\tag{5}
 r(j)\triangleq I(X;Y) \text{ with } I(X;Y)=\sum_{x,y}p(x,y){\rm log}\frac{p(x,y)}{p(x)p(y)}
 $$
 

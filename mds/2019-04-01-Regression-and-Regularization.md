@@ -1,18 +1,3 @@
----
-layout:     post
-title:      Regression and Regularization
-subtitle:   Class Notes of Gatech ECE 6254
-date:       2019-04-01
-author:     Yinghao Li
-header-img: img/post-bg-ios9-web.jpg
-catalog: true
-tags:
-    - Machine Learning
-    - Regression
-    - Regularization
-    - Gatech
----
-
 # Regression and Regularization
 
 [TOC]
@@ -26,12 +11,11 @@ tags:
 Least square regression corresponds to the situation in which the loss function is sum of square errors.
 $$
 {\rm SSE}({\pmb \beta}, \beta_0) \triangleq \sum_{i=1}^N(y_i-{\pmb \beta}^{\sf T}-\beta_0)^2
-\tag{1}
 $$
 
 #### Matrix Representation
 
-If we add bias term into $\bf X$ and define
+If we add bias term into $\bf X​$ and define
 $$
 {\pmb \theta} \triangleq \left[
     \begin{matrix}
@@ -43,22 +27,20 @@ $$
 Then equation (1) can be written as
 $$
 {\rm SSE}({\pmb \beta}, \beta_0) \triangleq \|{\rm y - X{\pmb \theta}}\|_2^2
-\tag{2}
 $$
 
 #### Analytical Solution
 
-If ${\bf X}^{\sf T}{\bf X}$ is non-singular, the close form analytical solution to equation (2) is
+If ${\bf X}^{\sf T}{\bf X}​$ is non-singular, the close form analytical solution to equation (2) is
 $$
 \hat{\pmb \theta} = \left({\bf X}^{\sf T}{\bf X}\right)^{-1}{\bf X}^{\sf T}{\bf y}
-\tag{3}
 $$
 
 The **proof** is similar to the regularized form below.
 
 Even if ${\bf X}^{\sf T}{\bf X}​$ is singular, we can use SVD to get the approximate solution.
 
-We can also apply a non-linear feature map $\Phi : \mathbb{R}^d \to \mathbb{R}^\ell : {\bf x} \mapsto \Phi ({\bf x})$ to get some additional benefits.
+We can also apply a non-linear feature map $\Phi : \mathbb{R}^d \to \mathbb{R}^\ell : {\bf x} \mapsto \Phi ({\bf x})​$ to get some additional benefits.
 
 ## Regularization
 
@@ -71,17 +53,15 @@ An approach to deal with overfitting is **regularization**.
 The key idea is to introduce a penalty term to limit the value of vector $\pmb \theta$.
 
 $$
-\tag{4}
 \hat{\pmb \theta} = \underset{\pmb \theta}{\operatorname{argmin}} \|{\bf y-X{\pmb \theta}}\|_2^2+\|{\bf \Gamma} {\pmb\theta}\|_2^2
 $$
-where ${\bf \Gamma}\in \mathbb{R}^{(d+1)\times(d+1)}$.
+where ${\bf \Gamma}\in \mathbb{R}^{(d+1)\times(d+1)}​$.
 
 #### Analytical Solution
 
 The minimizer of the least-square problem with Thykonov regularization is:
 $$
 \hat{{\pmb \theta}} = \left({\bf X}^{\sf T}{\bf X} + {\bf \Gamma}^{\sf T}{\bf \Gamma} \right)^{-1}{\bf X}^{\sf T}{\bf y}
-\tag{5}
 $$
 
 > **Proof**:
@@ -98,16 +78,15 @@ $$
 > $$
 > \hat{{\pmb \theta}} = \left({\bf X}^{\sf T}{\bf X} + {\bf \Gamma}^{\sf T}{\bf \Gamma} \right)^{-1}{\bf X}^{\sf T}{\bf y}
 > $$
-> For special case ${\bf \Gamma} = \sqrt{\lambda}{\bf I}$ for $\lambda > 0$, we obtain
+> For special case ${\bf \Gamma} = \sqrt{\lambda}{\bf I}$ for $\lambda > 0​$, we obtain
 > $$
-> \tag{6}
 > \hat{{\pmb \theta}} = \left({\bf X}^{\sf T}{\bf X} + \lambda{\bf I} \right)^{-1}{\bf X}^{\sf T}{\bf y}
 > $$
-> 
+>
 
 #### Ridge Regression
 
-Ridge regression is slightly different from above which does not penalize $\beta_0$. In ridge regression,
+Ridge regression is slightly different from above which does not penalize $\beta_0​$. In ridge regression,
 $$
 {\bf \Gamma} \triangleq \left[
     \begin{matrix}
@@ -121,10 +100,9 @@ $$
 
 Thykonov regularization can also be regarded as a constrained optimization problem. Solving Thykonov regularization is equivalent to solving
 
-$$\tag{7}
+$$
 \underset{\pmb \theta}{\operatorname{argmin}} \|{\bf y-X{\pmb \theta}}\|_2^2 \text{ such that } \|{\bf \Gamma} {\pmb\theta}\|_2^2 \leqslant \gamma
 $$
-
 The figure below illustrates the effect of Thykonov regularization in $\mathbb{R}^2​$ assuming ${\bf \Gamma} = {\bf I}​$.
 
 ![post-RR-v1](https://raw.githubusercontent.com/Yinghao-Li/Yinghao-Li.github.io/master/img/post-RR/post-RR-v1.PNG)
