@@ -31,7 +31,7 @@ $$
 
 #### Analytical Solution
 
-If ${\bf X}^{\sf T}{\bf X}​$ is non-singular, the close form analytical solution to equation (2) is
+If ${\bf X}^{\sf T}{\bf X}$ is non-singular, the close form analytical solution to equation (3) is
 $$
 \hat{\pmb \theta} = \left({\bf X}^{\sf T}{\bf X}\right)^{-1}{\bf X}^{\sf T}{\bf y}
 $$
@@ -86,7 +86,7 @@ $$
 
 #### Ridge Regression
 
-Ridge regression is slightly different from above which does not penalize $\beta_0​$. In ridge regression,
+Ridge regression is slightly different from above which does not penalize $\beta_0$. In ridge regression,
 $$
 {\bf \Gamma} \triangleq \left[
     \begin{matrix}
