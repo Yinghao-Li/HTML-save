@@ -187,11 +187,11 @@ However, there are certain constrains on $h_j$:
 
 1. $h_j \geq 0$;
 2. $\sum_{j=1}^d h_j = \sum_{j=1}^d \sum_{i=1}^k w_{ij}^2=k$;
-3. We can write ${\bf W}_1=\left[{\bf W}\ {\bf W}_0\right]\in\mathbb{R}^{d\times d}$ s.t. ${\bf W}_1^{\sf T}{\bf W}_1={\bf I}_d$. In another form: $h_j=\sum_{i=1}^k w_{ij}^2 \leq \sum_{i=1}^k w_{1,ij}^2=1$. <font color=red>(Should not ${\bf W}_1{\bf W}^{\sf T}_1={\bf I}_d$ and the last term sums to d???) </font>
+3. We can write ${\bf W}_1=\left[{\bf W}\ {\bf W}_0\right]\in\mathbb{R}^{d\times d}$ s.t. ${\bf W}_1^{\sf T}{\bf W}_1={\bf I}_d$ and ${\bf W}_1{\bf W}^{\sf T}_1={\bf I}_d$. In another form: $h_j=\sum_{i=1}^k w_{ij}^2 \leq \sum_{i=1}^d w_{1,ij}^2=1$. 
 
 #### Solve Linear Program
 
-By now, the problem have become $\underset{\{ h_j \}}{\operatorname{argmax}} \sum_{j=1}^dh_j\lambda_j$ s.t. $0 \leq h_j \leq 1$ and $\sum_{j=1}^dh_j=k$. Without too much effort we can figure out that the solution is
+By now, the problem have become $\underset{\{ h_j \}}{\operatorname{argmax}} \sum_{j=1}^dh_j\lambda_j​$ s.t. $0 \leq h_j \leq 1​$ and $\sum_{j=1}^dh_j=k​$. Without too much effort we can figure out that the solution is
 $$
 \begin{equation}
 h_j=\left\{ \begin{aligned}
@@ -235,7 +235,7 @@ $$
 
 ### PCA Summary
 
-- Customary to center and scale a data set so that it has zero mean and unit variance along each feature; (<font color=red> Where does this "unit variance" come from? </font>)
+- Customary to center and scale a data set so that it has zero mean and unit variance along each feature;
 - Typically select $k$ such that residual error is small;
 - PCA is a good idea when:
   - the data forms a single point cloud in space;
@@ -247,7 +247,7 @@ $$
 
 ## Multidimensional Scaling
 
-> There are situation for which Euclidean distance is not appropriate.
+There are situation for which Euclidean distance is not appropriate.
 
 Suppose we have access to a **dissimilarity matrix** ${\bf D} = [d_{ij}]\in \mathbb{R}^{n\times n}$ and some distance function $\rho$, then $\bf D$ satisfies:
 $$
@@ -255,13 +255,14 @@ $$
 $$
 In particular, triangle inequality is not required.
 
-### General
+### Definition
 
-Multidimensional Scaling (MDS) aims to:
+> Multidimensional Scaling (MDS) aims to find $\rho\in \mathbb{R}^k$,  $k \leq d$ and $\{{\bf x}_i\}_{i=1}^n \in \mathbb{R}^k$ such that $\rho ({\bf x}_i,{\bf x}_j)\approx d_{ij}$;
 
-- Find dimension $k \leq d$ and $\{{\bf x}_i\}_{i=1}^N \in \mathbb{R}^k$ such that $\rho ({\bf x}_i,{\bf x}_j)\approx d_{ij}$;
 - In general, perfect embedding into the desired dimension does not exist;
 - Many variants of MDS based on choice of $\rho$, whether $\bf D$ is completely known or not.
+
+Note that we are looking for a **new representation** of the original data, which means that the original data are only known through $\bf D​$.
 
 There are two types of MDS:
 
@@ -272,23 +273,90 @@ There are two types of MDS:
 
 Assume $\bf D​$ is completely know (no missing entry) and $\rho ({\bf x}, {\bf y})\triangleq \|{\bf x}-{\bf y}\|_2​$.
 
-- Form ${\bf B} = -\frac{1}{2}{\bf H}{\bf D}^2{\bf H}$ where ${\bf H}\triangleq {\bf I}-\frac{1}{N}{\bf 1}{\bf 1}^{\sf T}$ where ${\bf 1}^{\sf T}=[1,1,\dots,1]$;
+- Form ${\bf B} = -\frac{1}{2}{\bf H}{\bf D}^2{\bf H}$ where ${\bf H}\triangleq {\bf I}-\frac{1}{n}{\bf 1}{\bf 1}^{\sf T}$ where ${\bf 1}^{\sf T}=[1,1,\dots,1]$;
 - Compute eigen decomposition ${\bf B}={\bf V}{\pmb \Lambda}{\bf V}^{\sf T}$;
-- Return ${\bf X} = ( {\bf V}_k {\pmb \Lambda}^{\frac{1}{2}} )^{\sf T}$,where ${\bf V}_k$ consists first $k^{\rm th}$ columns of ${\bf V}$.
+- Return ${\pmb \Theta} = ( {\bf V}_k {\pmb \Lambda}_k^{\frac{1}{2}} )^{\sf T}​$,where ${\bf V}_k​$ consists first $k^{\rm th}​$ columns of ${\bf V}​$, ${\pmb \Lambda}_k​$ upper left $k\times k​$ submatrix of $\pmb \Lambda​$.
 
 **Proof**
 
-Assume exact embedding ${\bf X}=[{\bf x}_1,\dots,{\bf x}_n]\in \mathbb{R}^{k\times n}$.
+Assume we have exact embedding ${\bf X}=[{\bf x}_1,\dots,{\bf x}_n]\in \mathbb{R}^{k\times n}​$.
 
-Consider ${\bf D}^2 = [d_{ij}^2]​$ where $d_{ij}^2 = \|{\bf x}_i - {\bf x}_j\|_2^2 = \|{\bf x}_i\|^2 + \|{\bf x}_j\|^2-2{\bf x}_i^{\sf T}{\bf x}_j​$.
+Consider ${\bf D}^2 = [d_{ij}^2]\in \mathbb{R}^{n\times n}$ where $d_{ij}^2 = \|{\bf x}_i - {\bf x}_j\|_2^2 = \|{\bf x}_i\|^2 + \|{\bf x}_j\|^2-2{\bf x}_i^{\sf T}{\bf x}_j​$.
 
 We can write it in the matrix form:
 $$
 {\bf D}^2 = {\bf b}{\bf 1}^{\sf T} + {\bf 1}{\bf b}^{\sf T} - 2{\bf X}^{\sf T}{\bf X}
 \quad \text{ where }\quad
-{\bf b}=\left[ \begin{matrix} {\bf x}_1^2 \\ \vdots \\ {\bf x}_n^2 \end{matrix}\right]
+{\bf b}=\left[ \begin{matrix} \|{\bf x}_1\|_2^2 & \cdots & \|{\bf x}_n\|_2^2 \end{matrix}\right]^{\sf T}\in \mathbb{R}^n
 $$
 
+${\bf b}{\bf 1}^{\sf T}$ replicates $\bf b$ over the columns and ${\bf 1}{\bf b}^{\sf T}$ does the similar thing. Change the positions of elements in (20) we have:
+$$
+{\bf X}^{\sf T}{\bf X} = \frac{1}{2} \left({\bf b}{\bf 1}^{\sf T} + {\bf 1}{\bf b}^{\sf T} - {\bf D}^2\right)
+$$
+Assume that data is centered around zero i.e. we work with $\tilde{\bf X}\triangleq {\bf X}{\bf H}$:
+$$
+\begin{aligned}
+\tilde{\bf X}^{\sf T}\tilde{\bf X} &= \frac{1}{2} \left({\bf H}^{\sf T}{\bf b}{\bf 1}^{\sf T}{\bf H} + {\bf H}^{\sf T}{\bf 1}{\bf b}^{\sf T}{\bf H} - {\bf H}^{\sf T}{\bf D}^2 {\bf H}\right) \\
+&= -\frac{1}{2} {\bf H}^{\sf T}{\bf D}^2 {\bf H}\\
+&= -\frac{1}{2} {\bf H} {\bf D}^2 {\bf H} \in \mathbb{R}^{n\times n}
+\end{aligned}
+$$
+**Eckart-Young Theorem**
+
+> The above algorithm returns the best rank $k$ approximation in the sense that it minimizes $\|{\pmb \Theta}^{\sf T}{\pmb \Theta}-{\bf B}\|_2$ and $\|{\pmb \Theta}^{\sf T}{\pmb \Theta}-{\bf B}\|_F$.
+
+Details could be found [here](<https://en.wikipedia.org/wiki/Low-rank_approximation>).
+
+### Relationship to PCA
+
+Suppose we have ${\bf X}\in \mathbb{R}^{d\times n}$ and ${\bf D}\in \mathbb{R}^{n\times n}$ with $d_{ij}\triangleq\| {\bf x}_i - {\bf x}_j \|_2$:
+
+- PCA computes an eigen decomposition of ${\bf S}=\sum_{i=1}^N{\bf x}_i{\bf x}_i^{\sf T}={\bf X}{\bf X}^{\sf T}\in \mathbb{R}^{d\times d}​$.
+  - Equivalent to computing the SVD of ${\bf X} = {\bf U}{\Sigma}{\bf V}^{\sf T}​$;
+  - New representation computed as ${\pmb \theta}_i = {\bf U}_k^{\sf T}{\bf x}_i$, where ${\bf U}_k \in \mathbb{R}^{d\times k}$.
+- MDS computes an eigen decomposition of ${\bf X}^{\sf T}{\bf X}\in \mathbb{R}^{n\times n}​$.
+  - ${\bf X}^{\sf T}{\bf X} = {\bf V}{\Sigma}^2{\bf V}^{\sf T}$;
+  - New representation computed as ${\pmb \Theta} =\left( {\bf V}_k \Sigma_k \right)^{\sf T}$.
+
+The results from PCA and MDS are the same if all data are observed.
+
+**Subtle differences:**
+
+- PCA gives us access to $\bf A$ and $\pmb \mu$: we can extract features and reconstruct approximations;
+- Need $\bf X$ to recover $\bf A$;
+- In MDS we cannot directly extract features and compute ${\bf A}({\bf x}-{\pmb \mu})$.
+
+### Add points to MDS
+
+Assume we have access to $\bf D$ and want to add a new point $\bf x$ to our embedding, define
+$$
+\begin{equation*}
+
+d_{\pmb \mu} \triangleq \frac{1}{n} {\bf D}^2{\bf 1}
+\qquad
+d_{\bf x} \triangleq \left[
+\begin{matrix}
+	\|{\bf x} - {\bf x}_1 \|_2^2 \\
+	\vdots \\
+	\|{\bf x} - {\bf x}_n \|_2^2
+\end{matrix} \right]
+
+\end{equation*}
+$$
+Then ${\bf A}^{\sf T}({\bf x}-{\pmb \mu}) = ({\pmb \Theta}^{\dagger})^{\sf T} \left( \frac{1}{2}(d_{\bf x}-d_{\pmb \mu}) \right)$ where ${\pmb \Theta}^{\dagger}$ consists of first $k$ columns of ${\bf V}{\Sigma}^{-1}$ from the SVD $\tilde{\bf X}={\bf U}{\Sigma}{\bf V}^{\sf T}$.
+
+### Extensions
+
+Classical MDS minimizes the loss function $\|{\bf X}^{\sf T}{\bf X}-{\bf B}\|_F$, but many other choices for loss functions exists.
+
+A common other choice is **stress function** $\sum_{i,j}w_{i,j}(d_{ij}-\|{\bf x}_i - {\bf x}_j\|_2)^2$ where $w_{i,j}$is fixed $w_{i,j}\in \{ 0,1 \}$ handles missing data and $w_{i,j}=\frac{1}{d_{ij}^2}$ penalizes error on nearby points.
+
+**Nonlinear embeddings**:
+
+- High-dimensional data sets can have nonlinear structure that not captured via linear methods;
+- Kernelize PCA and MDS with non-linear ${\pmb \Phi}:\mathbb{R}^d \to \mathbb{R}^k​$;
+- Use PCA on ${\pmb \Phi}({\bf X}){\pmb \Phi}({\bf X})^{\sf T}$ or MDS on ${\pmb \Phi}({\bf X})^{\sf T}{\pmb \Phi}({\bf X})​$.
 
 ## Reference
 
