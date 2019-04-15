@@ -138,7 +138,7 @@ The hard part of this calculation is finding out what $\bf A$ is.
 
 ### Proof
 
-#### Introduce of S
+**Introduce of S**
 
 Assume we already know ${\pmb \theta}_i​$ and $\hat{\pmb \mu}​$ from (9) and (10), the problem becomes solving:
 $$
@@ -161,7 +161,7 @@ $$
 
 - Recall that $\|{\bf v}\|_2^2={\rm tr}({\bf v}{\bf v}^{\sf T})$ where ${\rm tr}(\bf A)$ is the trace of $\bf A$.
 
-#### Introduce linear program
+**Introduce linear program**
 
 It is easy to see from definition that $\bf S​$ is positive semi-definite. Apply Eigen decomposition on $\bf S​$: ${\bf S}={\bf U}{\pmb \Lambda}{\bf U}^{\sf T}​$ where ${\bf U}\in \mathbb{R}^{d\times d}​$ is an orthonormal matrix and ${\pmb \Lambda}={\rm diag}(\lambda_1, \lambda_2, \dots, \lambda_d)​$ ,$\lambda_1\geq \lambda_2 \geq \dots \geq \lambda_d \geq 0 ​$.
 
@@ -189,7 +189,7 @@ However, there are certain constrains on $h_j$:
 2. $\sum_{j=1}^d h_j = \sum_{j=1}^d \sum_{i=1}^k w_{ij}^2=k$;
 3. We can write ${\bf W}_1=\left[{\bf W}\ {\bf W}_0\right]\in\mathbb{R}^{d\times d}$ s.t. ${\bf W}_1^{\sf T}{\bf W}_1={\bf I}_d$ and ${\bf W}_1{\bf W}^{\sf T}_1={\bf I}_d$. In another form: $h_j=\sum_{i=1}^k w_{ij}^2 \leq \sum_{i=1}^d w_{1,ij}^2=1$. 
 
-#### Solve Linear Program
+**Solve Linear Program**
 
 By now, the problem have become $\underset{\{ h_j \}}{\operatorname{argmax}} \sum_{j=1}^dh_j\lambda_j​$ s.t. $0 \leq h_j \leq 1​$ and $\sum_{j=1}^dh_j=k​$. Without too much effort we can figure out that the solution is
 $$
@@ -236,7 +236,7 @@ $$
 ### PCA Summary
 
 - Customary to center and scale a data set so that it has zero mean and unit variance along each feature;
-- Typically select $k$ such that residual error is small;
+- Typically select $k​$ such that residual error is small;
 - PCA is a good idea when:
   - the data forms a single point cloud in space;
   - the data is approximately Gaussian, or some other elliptical distribution;
@@ -350,13 +350,82 @@ Then ${\bf A}^{\sf T}({\bf x}-{\pmb \mu}) = ({\pmb \Theta}^{\dagger})^{\sf T} \l
 
 Classical MDS minimizes the loss function $\|{\bf X}^{\sf T}{\bf X}-{\bf B}\|_F$, but many other choices for loss functions exists.
 
-A common other choice is **stress function** $\sum_{i,j}w_{i,j}(d_{ij}-\|{\bf x}_i - {\bf x}_j\|_2)^2$ where $w_{i,j}$is fixed $w_{i,j}\in \{ 0,1 \}$ handles missing data and $w_{i,j}=\frac{1}{d_{ij}^2}$ penalizes error on nearby points.
+A common other choice is **stress function** $\sum_{i,j}w_{i,j}(d_{ij}-\|{\bf x}_i - {\bf x}_j\|_2)^2$ where $w_{i,j}$is fixed $w_{i,j}\in \{ 0,1 \}$ handles missing data and $w_{i,j}=\frac{1}{d_{ij}^2}​$ penalizes error on nearby points.
 
-**Nonlinear embeddings**:
+## Nonlinear embeddings
 
 - High-dimensional data sets can have nonlinear structure that not captured via linear methods;
 - Kernelize PCA and MDS with non-linear ${\pmb \Phi}:\mathbb{R}^d \to \mathbb{R}^k​$;
-- Use PCA on ${\pmb \Phi}({\bf X}){\pmb \Phi}({\bf X})^{\sf T}$ or MDS on ${\pmb \Phi}({\bf X})^{\sf T}{\pmb \Phi}({\bf X})​$.
+- Use PCA on ${\pmb \Phi}({\bf X}){\pmb \Phi}({\bf X})^{\sf T}$ or MDS on ${\pmb \Phi}({\bf X})^{\sf T}{\pmb \Phi}({\bf X})$.
+
+### Kernel PCA
+
+Suppose we have dataset $\mathcal{D} =\{{\bf x}_i\}_{i=1}^n \in \mathbb{R}^d​$, kernel $k​$ and dimension $r​$:
+
+1. Form $\tilde{\bf K}={\bf H}{\bf K}{\bf H}$ where $\bf K$ is kernel matrix and $\bf H$ is centering matrix;
+2. Compute eigen decomposition $\tilde{\bf K}={\bf V}{\pmb \Lambda} {\bf V}^{\sf T}$;
+3. Set ${\pmb \Theta}^{\dagger}​$ to $r​$ first rows of $( {\bf V} {\pmb \Lambda}^{\frac{1}{2}} )^{\sf T}​$ ;
+
+Projection of transformed data computed with $f: \mathbb{R}^d \to \mathbb{R}^r​$ computed as:
+$$
+f({\bf x})=({\pmb \Theta}^{\dagger})^{\sf T} {\Phi}({\bf X})^{\sf T} ({\Phi}({\bf x}) - \Phi({\pmb \mu}))
+= ({\pmb \Theta}^{\dagger})^{\sf T}(k({\bf x})-\frac{1}{n}{\bf K1})
+$$
+with $k({\bf x})\triangleq [k({\bf x}, {\bf x}_1)\  \cdots \  k({\bf x}, {\bf x}_n)]^{\sf T}$ the kernel function.
+
+### Isometric Feature Mapping
+
+Assume that the data lies in low-dimensional manifold (looks Euclidean in small neighborhoods):
+
+![post-DR-manifold](https://raw.githubusercontent.com/Yinghao-Li/Yinghao-Li.github.io/master/img/post-DR/post-DR-manifold.PNG)
+
+Given dataset $\mathcal{D} =\{{\bf x}_i\}_{i=1}^n \in \mathbb{R}^d​$, we want to compute the estimation of the geodesic distance along manifold.
+
+Compute shortest path using a **proximity graph**:
+
+- Form the **weighted adjacency matrix** $\bf W$ by:
+  1. For every ${\bf X}_i​$, define local neighborhood $\mathcal{N}_i​$, e.g. $k​$ nearest neighbors: all ${\bf x}_j​$ s.t. $\| {\bf x}_j - {\bf x}_i \|_2 \leq \epsilon​$;
+  2. For each ${\bf x}_i$, set $w_{ij} = \| {\bf x}_j - {\bf x}_i \|_2​$.
+- Compute $\bf D$ by setting $d_{ij}$ to length of **shortest path** from node $i$ to node $j$ in graph described by $\bf W$;
+- Then embedding can be computed similar to MDS
+
+### Locally Linear Embedding
+
+> A data manifold that is globally nonlinear still appears linear in local pieces: do not try to model **global geodesic distance** explicitly; instead try to preserve structure in data by patching together local pieces of the manifold.
+
+For dataset $\mathcal{D} =\{{\bf x}_i\}_{i=1}^n \in \mathbb{R}^d$:
+
+1. For each ${\bf x}_i​$, define local neighborhood $\mathcal{N}_i​$;
+
+2. Solve $\bf W$ that minimize the distances
+   $$
+   \underset{{\bf W}}{\operatorname{argmin}} \sum_{i=1}^n \left\|{\bf x}_i-\sum_{j=1}^n w_{ij}{\bf x}_j \right\|_2^2 \text{ s.t. } \sum_j w_{ij}=1 \text{ and } w_{ij} = 0 \text{ for } j\notin \mathcal{N}_i
+   $$
+
+3. Fix $\bf W$ and solve for $\pmb \Theta$:
+   $$
+   \underset{\{{\pmb \theta}_i\}}{\operatorname{argmin}} \sum_{i=1}^n
+   \left\| {\pmb \theta}_i - \sum_{j=1}^n w_{ij}{\pmb \theta}_j
+   \right\|_2^2
+   $$
+   which in matrix form is:
+   $$
+   \underset{{\pmb \Theta}}{\operatorname{argmin}}
+   \left\|{\pmb \Theta}-{\pmb \Theta}{\bf W}
+   \right\|_F^2
+   =
+   \underset{{\pmb \Theta}}{\operatorname{argmin}} {\rm trace}
+   \left(
+   {\pmb \Theta}({\bf I}-{\bf W})^{\sf T}({\bf I}-{\bf W}){\pmb \Theta}^{\sf T}
+   \right)
+   $$
+   and we can solve this using eigen decomposition of $({\bf I}-{\bf W})^{\sf T}({\bf I}-{\bf W})$.
+
+The embedding of new points can be computed by
+$$
+\theta = \sum_{i=1}^n w_{{\bf x},{\bf x}_i}{\pmb \theta}_i
+$$
+with $w_{{\bf x},{\bf x}_i}$ computed from (23).
 
 ## Reference
 
@@ -365,4 +434,8 @@ A common other choice is **stress function** $\sum_{i,j}w_{i,j}(d_{ij}-\|{\bf x}
 [[2]](https://bloch.ece.gatech.edu/ece6254sp19/slides/lecture23-slides.html#/title-N) M. Bloch, (2019, April 2). PCA and MDS.
 
 [[3]](http://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm) MIT. BE. 400 / 7.548. Singular Value Decomposition (SVD) tutorial.
+
+[[4]](https://bloch.ece.gatech.edu/ece6254sp19/slides/lecture24-slides.html#/title-N) M. Bloch, (2019, April 4). MDS.
+
+[[5]](https://bloch.ece.gatech.edu/ece6254sp19/slides/lecture25-slides.html#/title-N) M. Bloch, (2019, April 9). Kernel PCA, Isomap, LLE / KDE.
 
