@@ -15,7 +15,7 @@ $$
 
 #### Matrix Representation
 
-If we add bias term into $\bf X​$ and define
+If we add bias term into $\bf X$ and define
 $$
 {\pmb \theta} \triangleq \left[
     \begin{matrix}
@@ -38,9 +38,9 @@ $$
 
 The **proof** is similar to the regularized form below.
 
-Even if ${\bf X}^{\sf T}{\bf X}​$ is singular, we can use SVD to get the approximate solution.
+Even if ${\bf X}^{\sf T}{\bf X}$ is singular, we can use SVD to get the approximate solution.
 
-We can also apply a non-linear feature map $\Phi : \mathbb{R}^d \to \mathbb{R}^\ell : {\bf x} \mapsto \Phi ({\bf x})​$ to get some additional benefits.
+We can also apply a non-linear feature map $\Phi : \mathbb{R}^d \to \mathbb{R}^\ell : {\bf x} \mapsto \Phi ({\bf x})$ to get some additional benefits.
 
 ## Regularization
 
@@ -55,7 +55,7 @@ The key idea is to introduce a penalty term to limit the value of vector $\pmb \
 $$
 \hat{\pmb \theta} = \underset{\pmb \theta}{\operatorname{argmin}} \|{\bf y-X{\pmb \theta}}\|_2^2+\|{\bf \Gamma} {\pmb\theta}\|_2^2
 $$
-where ${\bf \Gamma}\in \mathbb{R}^{(d+1)\times(d+1)}​$.
+where ${\bf \Gamma}\in \mathbb{R}^{(d+1)\times(d+1)}$.
 
 #### Analytical Solution
 
@@ -78,7 +78,7 @@ $$
 > $$
 > \hat{{\pmb \theta}} = \left({\bf X}^{\sf T}{\bf X} + {\bf \Gamma}^{\sf T}{\bf \Gamma} \right)^{-1}{\bf X}^{\sf T}{\bf y}
 > $$
-> For special case ${\bf \Gamma} = \sqrt{\lambda}{\bf I}$ for $\lambda > 0​$, we obtain
+> For special case ${\bf \Gamma} = \sqrt{\lambda}{\bf I}$ for $\lambda > 0$, we obtain
 > $$
 > \hat{{\pmb \theta}} = \left({\bf X}^{\sf T}{\bf X} + \lambda{\bf I} \right)^{-1}{\bf X}^{\sf T}{\bf y}
 > $$
@@ -91,7 +91,7 @@ $$
 {\bf \Gamma} \triangleq \left[
     \begin{matrix}
     0 & 0 &\cdots & 0 \\
-    0 & \sqrt{\lambda} & \cdots & \lambda\\
+    0 & \sqrt{\lambda} & \cdots & 0\\
     \vdots & \vdots & \ddots & \vdots \\
     0 & 0 & \vdots & \sqrt{\lambda}
     \end{matrix}
@@ -103,7 +103,7 @@ Thykonov regularization can also be regarded as a constrained optimization probl
 $$
 \underset{\pmb \theta}{\operatorname{argmin}} \|{\bf y-X{\pmb \theta}}\|_2^2 \text{ such that } \|{\bf \Gamma} {\pmb\theta}\|_2^2 \leqslant \gamma
 $$
-The figure below illustrates the effect of Thykonov regularization in $\mathbb{R}^2​$ assuming ${\bf \Gamma} = {\bf I}​$.
+The figure below illustrates the effect of Thykonov regularization in $\mathbb{R}^2$ assuming ${\bf \Gamma} = {\bf I}$.
 
 ![post-RR-v1](https://raw.githubusercontent.com/Yinghao-Li/Yinghao-Li.github.io/master/img/post-RR/post-RR-v1.PNG)
 
