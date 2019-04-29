@@ -10,7 +10,7 @@
 
 ### Theory
 
-K-means clustering aims to find $C​$ that minimizes $W(C)​$ with
+K-means clustering aims to find $C$ that minimizes $W(C)$ with
 $$
 W(C)=\frac{1}{2}\sum_{k=1}^K\sum_{i:C(i)=k}\sum_{j:C(j)=k}\|{\bf x}_i-{\bf x}_j\|_2^2
 $$
@@ -24,7 +24,7 @@ and there is no efficient search strategy for this space.
 
 ------
 
-Instead, we switch to finding a sub-optimal k-means clustering $C^*​$:
+Instead, we switch to finding a sub-optimal k-means clustering $C^*$:
 $$
 C^*= \underset{C}{\operatorname{argmin}}\sum_{k=1}^KN_k\sum_{i:C(i)=k}\|{\bf x}_i-{\pmb \mu}_k\|_2^2
 $$
@@ -40,7 +40,7 @@ where ${\pmb \mu}_k=\frac{1}{N_k}\sum_{i:C(i)=k}{\bf x}_i$ and $N_k = |\{ i:C(i)
   \hat{\pmb \mu}_k = \frac{1}{N_k} \sum_{i:C(i)=k} {\bf x}_i
   $$
 
-- For a fixed $\{{\pmb \mu}_k\}_{k=1}^K​$ we have
+- For a fixed $\{{\pmb \mu}_k\}_{k=1}^K$ we have
   $$
   \hat{C}= \underset{C}{\operatorname{argmin}}\sum_{k=1}^KN_k\sum_{i:C(i)=k}\|{\bf x}_i-{\pmb \mu}_k\|_2^2
   $$
