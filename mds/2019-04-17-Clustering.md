@@ -1,5 +1,7 @@
 # Clustering
 
+[TOC]
+
 ## General
 
 **Clustering Problem**: given samples $\{{\bf x}_i\}_{i=1}^N$, assign points to *disjoint* subsets called *clusters* so that points in the same cluster are more similar to each other than points in different clusters.
